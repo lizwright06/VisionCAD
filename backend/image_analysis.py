@@ -21,7 +21,7 @@ with open(OBSERVED_IMAGE_PATH, "rb") as f:
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "")
 OPENROUTER_MODEL = os.getenv(
     "OPENROUTER_MODEL",
-    "openai/gpt-5.3-chat"
+    "openai/gpt-5-nano"
 )
 OPENROUTER_SITE_URL = os.getenv("OPENROUTER_SITE_URL", "http://localhost:8000")
 OPENROUTER_APP_NAME = os.getenv("OPENROUTER_APP_NAME", "image-analysis")
@@ -127,30 +127,29 @@ async def llm_analyze(data_url) -> Dict[str, Any]:
     if not OPENROUTER_API_KEY:
         raise HTTPException(status_code=500, detail="Missing OPENROUTER_API_KEY environment variable")
 
-    # Prepare the payload with explicit JSON instructions
     payload = {
         "model": OPENROUTER_MODEL,
         "temperature": 0,
-        "response_format": {"type": "text"},  # plain text output
         "messages": [
-            {"role": "system", "content": SYSTEM_PROMPT},
+            {
+                "role": "system",
+                "content": SYSTEM_PROMPT
+            },
             {
                 "role": "user",
                 "content": [
-                    {
-                        "type": "text",
-                        "text": (
-                            "Please analyze the following image and return ONLY valid JSON "
-                            "describing the 3D primitives, including their types, relative dimensions, "
-                            "and coordinates. Do not add any extra text.\n\n"
-                            f"{data_url}"
-                        )
-                    }
-                ],
-            },
-        ],
+                    {"type": "image_url", "image_url": data_url},  # base64 PNG
+                    {"type": "text", "text": """Give a concise general description of the 3D shapes in this drawing in the following format:"
+                    - Each shape has:
+                    - "shape": type of shape (cube, pyramid, cylinder, prism, etc.)
+                    - "size": size or dimensions
+                    - "position": [x, y, z] coordinates in 3D space
+                    - "relationship": optional, e.g., "on_top_of" another object
+                 """}
+                ]
+            }
+        ]
     }
-
 
     headers = {
         "Authorization": f"Bearer {OPENROUTER_API_KEY}",
@@ -167,27 +166,7 @@ async def llm_analyze(data_url) -> Dict[str, Any]:
         data = r.json()
         content = data.get("choices", [{}])[0].get("message", {}).get("content", "")
 
-        if not isinstance(content, str):
-            content = json.dumps(content)
-
-        json_text = extract_first_json_object(content)
-
-        try:
-            parsed = json.loads(json_text)
-        except Exception:
-            # Return a helpful error message (and include snippet for debugging)
-            snippet = content[:400]
-            raise HTTPException(
-                status_code=502,
-                detail=f"Model did not return valid JSON. First 400 chars:\n{snippet}",
-            )
-
-        parsed = validate_analysis_shape(parsed)
-        # Optional: include raw model metadata in debug mode
-        parsed["_debug"] = {
-            "model": OPENROUTER_MODEL,
-        }
-        return parsed
+        return content
 
 
 # @router.get("/health")
