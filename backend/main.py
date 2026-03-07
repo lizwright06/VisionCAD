@@ -4,6 +4,7 @@ from open_step_file import open_step_file
 from accept_png import accept_png
 
 app = FastAPI()
+app.include_router(router)
 
 @app.get("/")
 def root():

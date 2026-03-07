@@ -43,6 +43,7 @@ export default (app: App) => {
             variant: "flat"
         },
         VCard: {
+            color: "primary",
             flat: true,
             rounded: "lg",
             border: false,
