@@ -1,8 +1,9 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
+from image_analysis import router  # replace with your actual filename without .py
 
 app = FastAPI()
+app.include_router(router)
 
-@app.get("/")
-def root():
-    return {"message": "Backend running"}
+@app.get("/health")
+def health():
+    return {"ok": True}
