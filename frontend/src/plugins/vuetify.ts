@@ -5,7 +5,6 @@ import { aliases, mdi } from "vuetify/iconsets/mdi";
 import type { ThemeDefinition } from "vuetify";
 import 'vuetify/styles';
 import '@mdi/font/css/materialdesignicons.css'
-import { VFooter } from "vuetify/components";
 
 export default (app: App) => {
     //themes
@@ -13,41 +12,26 @@ export default (app: App) => {
         light: {
             dark: false,
             colors: {
-                background: '#ffffff',
-                surface: '#4b0f7d',
-                "on-surface": '#ffffff',
-                primary: '#9a16e7',
-                "on-primary": '#ffffff',
-                secondary: '#b84deb',
-                "on-secondary": '#ffffff'
-                //error
-                //info
-                //success
-                //warning
+                //TODO: clean up palette & take out comments
+                primary: '#A05DCB',           // Primary accent
+                'primary-lighten-1': '#D0B4EF', // Light variant for hover / cards
+                'primary-lighten-2': '#EAD9F9', // Very light background
+                'primary-darken-1': '#8100B4',   // Dark variant for headers / text
+                'primary-darken-2': '#57058B',   // Darkest / main background
+
+                secondary: '#8A2FC9',         // Muted purple accent
+                'secondary-lighten-1': '#9B3DDB', // Hover / active state
+                'secondary-darken-1': '#6F0E96',   // Shadow / depth accent
+
+                'on-primary': '#FFFFFF',       // Text on primary buttons
+                'on-secondary': '#FFFFFF',     // Text on secondary buttons
+                background: '#EAD9F9',       // Default light background
+                surface: '#D0B4EF',          // Card / surface background
             },
             variables: {
 
             }
-        },
-        // dark: {
-        //     dark: true,
-        //     colors: {
-        //         background: '#ffffff',
-        //         surface: '#7d0f30',
-        //         "on-surface": '#ffffff',
-        //         primary: '#eb4d89',
-        //         "on-primary": '#ffffff',
-        //         secondary: '#e71655',
-        //         "on-secondary": '#ffffff'
-        //         //error
-        //         //info
-        //         //success
-        //         //warning
-        //     },
-        //     variables: {
-                
-        //     }
-        // }
+        }
     };
 
     //defaults
@@ -56,6 +40,7 @@ export default (app: App) => {
             color: "secondary",
             rounded: "lg",
             style: "text-transform: none; font-weight: 500;",
+            variant: "flat"
         },
         VCard: {
             flat: true,
@@ -63,7 +48,7 @@ export default (app: App) => {
             border: false,
         },
         VAppBar: {
-            color: "primary",
+            color: "primary-darken-2",
             VBtn: {
                 color: "secondary",
                 rounded: "lg",
@@ -72,12 +57,16 @@ export default (app: App) => {
             }
         },
         VFooter: {
+            color: "primary-darken-2",
             VBtn: {
                 color: "secondary",
                 rounded: "lg",
                 style: "text-transform: none; font-weight: 500;",
                 variant: "flat"
             }
+        },
+        VFileUpload: {
+            color: "primary"
         }
     };
 
