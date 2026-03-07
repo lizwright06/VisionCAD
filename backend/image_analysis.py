@@ -30,7 +30,7 @@ def file_to_data_url(image_path: Path) -> str:
     if not image_path.exists():
         raise HTTPException(status_code=500, detail=f"Missing observed image file: {image_path}")
     b64 = base64.b64encode(image_path.read_bytes()).decode("utf-8")
-    return f"data:image/jpeg;base64,{b64}"
+    return f"data:image/png;base64,{b64}"
 
 
 def load_json(p: Path):
@@ -137,15 +137,15 @@ async def llm_analyze(data_url) -> Dict[str, Any]:
             {
                 "role": "user",
                 "content": [
-                    {"type": "input_url", "image_url": {"url": data_url}},
                     {
                         "type": "text",
                         "text": (
-                            "Please analyze the image and return ONLY valid JSON "
-                            "describing the 3D primitives, including their types, "
-                            "relative dimensions, and coordinates. Do not add any extra text."
+                            "Please analyze the following image and return ONLY valid JSON "
+                            "describing the 3D primitives, including their types, relative dimensions, "
+                            "and coordinates. Do not add any extra text.\n\n"
+                            f"{data_url}"
                         )
-                    },
+                    }
                 ],
             },
         ],
