@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from backend.open_step_file import open_step_file
+from open_step_file import open_step_file
 
 app = FastAPI()
 
