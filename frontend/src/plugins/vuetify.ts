@@ -5,6 +5,7 @@ import { aliases, mdi } from "vuetify/iconsets/mdi";
 import type { ThemeDefinition } from "vuetify";
 import 'vuetify/styles';
 import '@mdi/font/css/materialdesignicons.css'
+import { VFooter } from "vuetify/components";
 
 export default (app: App) => {
     //themes
@@ -13,11 +14,11 @@ export default (app: App) => {
             dark: false,
             colors: {
                 background: '#ffffff',
-                surface: '#7d0f30',
+                surface: '#4b0f7d',
                 "on-surface": '#ffffff',
-                primary: '#eb4d89',
+                primary: '#9a16e7',
                 "on-primary": '#ffffff',
-                secondary: '#e71655',
+                secondary: '#b84deb',
                 "on-secondary": '#ffffff'
                 //error
                 //info
@@ -63,6 +64,14 @@ export default (app: App) => {
         },
         VAppBar: {
             color: "primary",
+            VBtn: {
+                color: "secondary",
+                rounded: "lg",
+                style: "text-transform: none; font-weight: 500;",
+                variant: "flat"
+            }
+        },
+        VFooter: {
             VBtn: {
                 color: "secondary",
                 rounded: "lg",
