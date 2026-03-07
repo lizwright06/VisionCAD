@@ -22,7 +22,7 @@
   ]
 
   function navTo(url: string) {
-    // if(url='devpost') {
+    // if(url='/devpost') {
     //   window.location.href = 'TODO PUT DEVPOST LINK HERE';
     // }
     router.push(url);
