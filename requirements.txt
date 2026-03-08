@@ -3,4 +3,5 @@ jupyter-cadquery
 python-dotenv
 fastapi
 httpx
-
+uvicorn
+python-multipart
