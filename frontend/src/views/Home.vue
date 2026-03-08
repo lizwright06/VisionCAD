@@ -3,19 +3,14 @@
   import { ref, onMounted } from 'vue'
   import { useDownloadStore } from '@/stores/download';
 
-  const loading = ref(false);
-  const showFileUpload = ref(true);
-  const showFileDownload = ref(false);
-  const downloadStore = useDownloadStore();
   
+  const downloadStore = useDownloadStore();
 
   async function uploadFile(file: File) {
-    showFileUpload.value = false;
-    loading.value = true;
+    downloadStore.showFileUpload = false;
+    downloadStore.loading = true;
     downloadStore.fileName = file.name.split('.')[0] + '.step'
     downloadStore.sendFile();
-    loading.value = false;
-    showFileDownload.value = true;
   }
 
   async function downloadFile() {
@@ -23,22 +18,38 @@
   }
 
   function reset() {
-    showFileDownload.value = false;
-    loading.value = true;
+    downloadStore.showFileDownload = false;
+    downloadStore.loading = true;
 
     downloadStore.fileName = 'VisionCAD.step';
     downloadStore.photoFile = undefined;
 
-    loading.value = false;
-    showFileUpload.value = true;
+    downloadStore.loading = false;
+    downloadStore.showFileUpload = true;
   }
 </script>
 
 <template>
   <v-container>
-    <v-file-upload v-model="downloadStore.photoFile" density="default" clearable !multiple v-if="showFileUpload">
+    <div class="mb-5">
+      <h1>INSTRUCTIONS</h1>
+      <div class="ml-2">
+        1. Draw an image of simple shapes <br>
+        2. Upload the image in the box below<br>
+        3. Click "Upload" next to the uploaded image<br>
+        4. Once the file has been processed & converted, click on <span v-if="downloadStore.fileName">{{downloadStore.fileName}}</span><span v-else>the file name</span> to download your file<br>
+        5. Click "Upload Another Photo" to return to the start screen
+      </div>
+    </div>
+    <v-file-upload 
+      v-model="downloadStore.photoFile" 
+      density="default" 
+      clearable 
+      !multiple
+      v-if="downloadStore.showFileUpload"
+    >
       <template v-slot:browse="{ props }">
-        <v-btn v-bind="props" color="secondary-darken-1" variant="elevated">
+        <v-btn v-bind="props" color="secondary-darken" variant="elevated">
           Browse Files
         </v-btn>
       </template>
@@ -49,15 +60,19 @@
             <v-btn color="error" v-bind="clearProps" icon="mdi-delete"></v-btn>
           </template>  
           <template v-slot:append>
-            <v-btn color="secondary-darken-1" @click="uploadFile(file)">Upload</v-btn>
+            <v-btn color="secondary-darken" @click="uploadFile(file)">Upload</v-btn>
           </template>
         </v-file-upload-item>
       </template>
     </v-file-upload>
-    <v-card v-if="loading">
-      wooooo
+    <v-card v-if="downloadStore.loading">
+      <v-row class="justify-center ma-2">Creating your file, please wait...</v-row>
+      <v-row class="justify-center ma-2">
+        <v-btn color="primary" :loading="downloadStore.loading">woo</v-btn>
+      </v-row>
+
     </v-card>
-    <v-card v-if="showFileDownload">
+    <v-card v-if="downloadStore.showFileDownload">
       <v-row class="justify-center my-2">
         <v-icon size="64">mdi-download</v-icon>
       </v-row>

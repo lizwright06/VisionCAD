@@ -13,20 +13,16 @@ export default (app: App) => {
             dark: false,
             colors: {
                 //TODO: clean up palette & take out comments
-                primary: '#A05DCB',           // Primary accent
-                'primary-lighten-1': '#D0B4EF', // Light variant for hover / cards
-                'primary-lighten-2': '#EAD9F9', // Very light background
-                'primary-darken-1': '#8100B4',   // Dark variant for headers / text
-                'primary-darken-2': '#57058B',   // Darkest / main background
+                primary: '#A05DCB',
+                'primary-darken': '#57058B',
 
-                secondary: '#8A2FC9',         // Muted purple accent
-                'secondary-lighten-1': '#9B3DDB', // Hover / active state
-                'secondary-darken-1': '#6F0E96',   // Shadow / depth accent
+                secondary: '#8A2FC9',
+                'secondary-darken': '#6F0E96',
 
-                'on-primary': '#FFFFFF',       // Text on primary buttons
-                'on-secondary': '#FFFFFF',     // Text on secondary buttons
-                background: '#EAD9F9',       // Default light background
-                surface: '#D0B4EF',          // Card / surface background
+                'on-primary': '#FFFFFF',
+                'on-secondary': '#FFFFFF',
+                background: '#EAD9F9',
+                surface: '#D0B4EF',
             },
             variables: {
 
@@ -49,7 +45,7 @@ export default (app: App) => {
             border: false,
         },
         VAppBar: {
-            color: "primary-darken-2",
+            color: "primary-darken",
             VBtn: {
                 color: "secondary",
                 rounded: "lg",
@@ -58,7 +54,7 @@ export default (app: App) => {
             }
         },
         VFooter: {
-            color: "primary-darken-2",
+            color: "primary-darken",
             VBtn: {
                 color: "secondary",
                 rounded: "lg",
