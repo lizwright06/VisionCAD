@@ -14,8 +14,8 @@ router = APIRouter()
 BASE_DIR = Path(__file__).parent
 OBSERVED_IMAGE_PATH = BASE_DIR / "drawings" / "1.png"
 
-with open(OBSERVED_IMAGE_PATH, "rb") as f:
-    image_data = base64.b64encode(f.read()).decode("utf-8")
+# with open(OBSERVED_IMAGE_PATH, "rb") as f:
+#     image_data = base64.b64encode(f.read()).decode("utf-8")
 
 # -------- LLM Config --------
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "")
@@ -211,13 +211,11 @@ async def llm_analyze(data_url) -> Dict[str, Any]:
 @router.get("/analyze")
 async def analyze():
     data_url = file_to_data_url(OBSERVED_IMAGE_PATH)
-    analysis = await llm_analyze(data_url)
     analysis_str = await llm_analyze(data_url)  # returns a string
     analysis_json = json.loads(analysis_str)    # parse into a dict
 
     print(analysis_json["objects"])  # access the objects
 
-    # Return analysis only (clean). If you want to include inputs too, uncomment below.
     return {
-        "analysis": analysis,
+        "analysis": analysis_json,
     }

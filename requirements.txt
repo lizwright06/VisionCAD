@@ -3,15 +3,5 @@ jupyter-cadquery
 python-dotenv
 fastapi
 httpx
-
-#Create the virtual environmnet
-python3 -m venv venv
-
-# Start the virtual environment
-source venv/bin/activate
-
-#Install the dependancies in it
-pip install fastapi uvicorn
-
-# Start the backend
-python -m uvicorn main:app --reload --port 8080
+uvicorn
+python-multipart
