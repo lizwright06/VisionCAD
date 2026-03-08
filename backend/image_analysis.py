@@ -81,18 +81,16 @@ def validate_analysis_shape(obj: Any) -> Dict[str, Any]:
 SYSTEM_PROMPT = """
 You are a geometric scene interpreter that describes the 3D images in a drawing.
 
-Your task is to analyze an input image and identify the basic 3D geometric shapes that compose the structure. Focus only on simple primitives commonly used in AutoCAD modeling.
+Your task is to analyze an input image and identify the basic 3D geometric shapes that compose the structure. Focus only on simple primitives commonly used in 3D modeling.
 
 Allowed primitive shapes include:
 
-* cube
-* rectangular_prism
-* cylinder
-* sphere
-* cone
-* triangular_prism
-* square_pyramid
-* wedge
+- cube
+- square based pyramid
+- cylinder
+- rectangular prism
+- sphere
+- cone
 
 Instructions:
 
@@ -107,15 +105,56 @@ Give a general description of the 3D shapes in the drawing and the relative coor
 
 Guidelines for dimensions:
 
-* Cubes/prisms: width, depth, height
-* Sphere: radius
-* Cylinder/cone: radius, height
-* Pyramid: base_width, base_depth, height
-* Wedge: width, depth, height
+- cube: size, position
+- square based pyramid: base_size, height, position
+- cylinder: radius, height, position
+- rectangular prism: width, depth, height, position
+- sphere: radius, position
+- cone: radius, height, position
+- trangle based pyramid: base_size, height
 
-All measurements should be proportional and relative rather than exact real-world measurements.
-
-Your goal is to produce a simplified geometric description that could easily be used as a starting point for AutoCAD modeling.
+Example Output:
+{
+  "objects": [
+    {
+      "shape": "cube",
+      "size": 10,
+      "position": [0, 0]
+    },
+    {
+      "shape": "square based pyramid",
+      "base_size": 12,
+      "height": 8,
+      "position": [20, 0]
+    },
+    {
+      "shape": "cylinder",
+      "radius": 5,
+      "height": 15,
+      "position": [40, 0]
+    },
+    {
+      "shape": "rectangular prism",
+      "width": 10,
+      "depth": 6,
+      "height": 4,
+      "position": [60, 0]
+    },
+    {
+      "shape": "sphere",
+      "radius": 7,
+      "position": [80, 0]
+    },
+    {
+      "shape": "cone",
+      "radius": 6,
+      "height": 12,
+      "position": [100, 0]
+    }
+  ]
+}
+Note that for the position the order is [x,y]
+All measurements should be proportional and relative to each other.
 
 """.strip()
 
@@ -139,12 +178,7 @@ async def llm_analyze(data_url) -> Dict[str, Any]:
                 "role": "user",
                 "content": [
                     {"type": "image_url", "image_url": data_url},  # base64 PNG
-                    {"type": "text", "text": """Give a concise general description of the 3D shapes in this drawing in the following format:"
-                    - Each shape has:
-                    - "shape": type of shape (cube, pyramid, cylinder, prism, etc.)
-                    - "size": size or dimensions
-                    - "position": [x, y, z] coordinates in 3D space
-                    - "relationship": optional, e.g., "on_top_of" another object
+                    {"type": "text", "text": """Output a json file in the required format.
                  """}
                 ]
             }
@@ -178,6 +212,10 @@ async def llm_analyze(data_url) -> Dict[str, Any]:
 async def analyze():
     data_url = file_to_data_url(OBSERVED_IMAGE_PATH)
     analysis = await llm_analyze(data_url)
+    analysis_str = await llm_analyze(data_url)  # returns a string
+    analysis_json = json.loads(analysis_str)    # parse into a dict
+
+    print(analysis_json["objects"])  # access the objects
 
     # Return analysis only (clean). If you want to include inputs too, uncomment below.
     return {
