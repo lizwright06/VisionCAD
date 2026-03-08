@@ -1,23 +1,30 @@
 <script setup lang="ts">
   import { VFileUpload, VFileUploadItem } from 'vuetify/labs/VFileUpload'
-  import { ref, onMounted } from 'vue'
   import { useDownloadStore } from '@/stores/download';
-
+  import { onMounted, onUnmounted, ref } from 'vue';
   
   const downloadStore = useDownloadStore();
+  const socket = ref<WebSocket | null>(null);
 
   async function uploadFile(file: File) {
+    //swap file upload and loading screens
     downloadStore.showFileUpload = false;
     downloadStore.loading = true;
+
+    //grab file name
     downloadStore.fileName = file.name.split('.')[0] + '.step'
+
+    //call store function to send file to backend
     downloadStore.sendFile();
   }
 
   async function downloadFile() {
+    //call store function to get file from backend
     await downloadStore.getFile()
   }
 
   function reset() {
+    //swap download and 
     downloadStore.showFileDownload = false;
     downloadStore.loading = true;
 
@@ -27,6 +34,19 @@
     downloadStore.loading = false;
     downloadStore.showFileUpload = true;
   }
+
+  onMounted(() => {
+    socket.value = new WebSocket(`ws://localhost:8000/ws`);
+
+    socket.value.onmessage = (event) => {
+      downloadStore.loading = false;
+      downloadStore.showFileDownload = true;
+    }
+  })
+
+  onUnmounted(() => {
+    socket.value?.close();
+  });
 </script>
 
 <template>
