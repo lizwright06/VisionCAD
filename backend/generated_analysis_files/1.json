@@ -1,0 +1,1 @@
+{"analysis":"- shape: cube\n  size: width=2, depth=2, height=2\n  position: [0, 0, 1]\n\n- shape: square_pyramid\n  size: base_width=2, base_depth=2, height=2\n  position: [0, 0, 2]\n  relationship: on_top_of cube\n\n- shape: sphere\n  size: radius=1.8\n  position: [0, 0, 5.8]\n  relationship: on_top_of square_pyramid"}
