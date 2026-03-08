@@ -15,7 +15,7 @@ export const useDownloadStore = defineStore("download", () => {
             const link = document.createElement('a');
             link.href = url;
 
-            link.setAttribute('download', fileName.value);
+            link.setAttribute('download', '1.png');
             document.body.appendChild(link);
             link.click();
 
