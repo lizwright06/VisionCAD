@@ -6,7 +6,8 @@ httpx
 python3 -m venv venv
 
 # Start the virtual environment
-source venv/bin/activate
+source venv/bin/activate #mac
+.\venv\Scripts\Activate.ps1 #windows
 
 #Install the dependancies in it
 pip install fastapi uvicorn
