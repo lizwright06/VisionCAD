@@ -72,3 +72,15 @@ def drawSquareBasedPyramid(base, height, position):
     )
 
     return shape
+
+def drawTriangleBasedPyramid(base, height, position):
+    shape = (
+        cq.Workplane("XY")
+        .polygon(3, base)             # triangle base
+        .workplane(offset=height)
+        .polygon(3, 0.0001)           # tiny triangle as the tip
+        .loft()
+        .translate(position)
+    )
+
+    return shape

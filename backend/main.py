@@ -1,3 +1,5 @@
+from typing import List
+
 from fastapi import FastAPI, UploadFile, APIRouter, File, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 import json
@@ -31,9 +33,9 @@ class ConnectionManager:
     def disconnect(self, websocket: WebSocket):
          self.active_connections.remove(websocket)
     
-    async def broadcast(self):
+    async def broadcast(self, message: str = "DOWNLOAD COMPLETE"):
         for connection in self.active_connections:
-            await connection.send_text("DOWNLOAD COMPLETE")
+            await connection.send_text(message)
 
 manager = ConnectionManager()
 
@@ -74,7 +76,7 @@ async def upload(image: UploadFile = File(...)):
 
 
 @app.websocket("/ws")
-async def websocket_endpoint(websocket: WebSocket, client_id: int):
+async def websocket_endpoint(websocket: WebSocket):
     await manager.connect(websocket)
     try:
         while True:
@@ -82,7 +84,6 @@ async def websocket_endpoint(websocket: WebSocket, client_id: int):
             await manager.broadcast() # Broadcasts the message to all connected clients
     except WebSocketDisconnect:
         manager.disconnect(websocket)
-        await manager.broadcast(f"Client #{client_id} left the chat")
 
 app.add_middleware(
     CORSMiddleware,
@@ -90,6 +91,9 @@ app.add_middleware(
         "http://localhost:3000",
         "http://localhost:3001",
         "http://localhost:5173",
+        "http://127.0.0.1:3000",
+        "http://127.0.0.1:3001",
+        "http://127.0.0.1:5173",
     ],
     allow_credentials=True,
     allow_methods=["*"],
