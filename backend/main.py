@@ -64,6 +64,8 @@ async def upload(image: UploadFile = File(...)):
     print(analysis_json)
     
     generateCad(analysis_json["objects"])
+
+    await manager.broadcast()
     
     return {
         "upload": result,
@@ -76,6 +78,7 @@ async def websocket_endpoint(websocket: WebSocket, client_id: int):
     await manager.connect(websocket)
     try:
         while True:
+            await websocket.receive_text()
             await manager.broadcast() # Broadcasts the message to all connected clients
     except WebSocketDisconnect:
         manager.disconnect(websocket)
