@@ -1,9 +1,13 @@
-from fastapi import FastAPI, UploadFile, File
-import os
+from pathlib import Path
+
+from fastapi import UploadFile, File
+
+DRAWINGS_DIR = Path(__file__).resolve().parent / "drawings"
+TARGET_IMAGE = DRAWINGS_DIR / "1.png"
 
 async def accept_png(image: UploadFile = File(...)):
-    os.remove('./drawings/1.png')
     contents = await image.read()
-    with open(f"drawings/1.png", "wb") as file:
+    DRAWINGS_DIR.mkdir(parents=True, exist_ok=True)
+    with open(TARGET_IMAGE, "wb") as file:
         file.write(contents)
     return {"filename": image.filename, "message": "Upload successfully!"}

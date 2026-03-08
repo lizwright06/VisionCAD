@@ -19,7 +19,7 @@ export const useDownloadStore = defineStore("download", () => {
             const link = document.createElement('a');
             link.href = url;
 
-            link.setAttribute('download', '1.png');
+            link.setAttribute('download', fileName.value);
             document.body.appendChild(link);
             link.click();
 
