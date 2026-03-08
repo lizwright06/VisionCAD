@@ -1,1 +1,15 @@
 # enghacks2026
+# Create the virtual environment
+python3 -m venv venv
+
+# Start the virtual environment
+source venv/bin/activate
+
+# Install the dependancies in it
+pip install fastapi uvicorn
+
+# Start the backend
+python -m uvicorn main:app --reload --port 8080
+
+# Start the frontend
+npm run dev
