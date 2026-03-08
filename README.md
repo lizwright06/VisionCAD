@@ -1,5 +1,5 @@
 # enghacks2026
-#Create the virtual environmnet
+# Create the virtual environment
 python3 -m venv venv
 
 # Start the virtual environment
