@@ -7,6 +7,10 @@ export const useDownloadStore = defineStore("download", () => {
     const fileName = ref('VisionCAD.step')
     const photoFile = ref<File | File[] | undefined>(undefined);
 
+    const loading = ref(false);
+    const showFileUpload = ref(true);
+    const showFileDownload = ref(false);
+
     const getFile = async() => {
         try {
             const response = await downloadApi.getFile();
@@ -43,6 +47,9 @@ export const useDownloadStore = defineStore("download", () => {
   return { 
     fileName,
     photoFile,
+    loading,
+    showFileUpload,
+    showFileDownload,
     getFile,
     sendFile,
    };
