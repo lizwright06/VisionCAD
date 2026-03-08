@@ -22,9 +22,16 @@ This allows users to quickly visualize their sketches as real 3D models and sign
 ## Technologies Used
 
 - **CADQuery** – Generates 3D CAD models from structured geometry data  
-- **FastAPI** – Backend API for processing uploads and generating models  
-- **Vite** – Frontend development environment for the web interface  
+- **FastAPI** with **WebSocket** – Backend API for processing uploads and generating models  
+- **Vite** with **Vuetify**, **Pinia** and **Axios** – Frontend development environment for the web interface  
 - **AI image analysis** – Interprets drawings and extracts geometry
+
+## What's next for VisionCAD
+
+Future updates to VisionCAD will include:
+- more filetype options for users to download
+- more complex shapes the AI can analyze
+- drawing directly on the site instead of uploading a file
 
 ## Project Setup
 
@@ -58,9 +65,9 @@ python -m uvicorn main:app --reload --port 8000
 npm run dev
 ```
 
-### Citations
+## Citations
 Prompts for LLM calls were generated/being held by ChatGPT  
 Debugging was done through CodeX
 
-### OpenSource Libraries:
+## OpenSource Libraries:
 CADQuery
