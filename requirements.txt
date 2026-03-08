@@ -1,4 +1,5 @@
 cadquery
+jupyter-cadquery
 python-dotenv
 fastapi
 httpx
