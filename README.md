@@ -34,21 +34,29 @@ This allows users to quickly visualize their sketches as real 3D models and sign
 git clone <repo-url>
 cd visioncad
 ```
-## Project Setup
-# Create the virtual environment
+### 2. Create the virtual environment
+```bash
 python3 -m venv venv
-
-# Start the virtual environment
+```
+### 3. Start the virtual environment
+```bash
 source venv/bin/activate
+```
 
-# Install the dependancies in it
+### 4. Install the dependancies in it
+```bash
 pip install fastapi uvicorn
+```
 
-# Start the backend
+### 5. Start the backend
+```bash
 python -m uvicorn main:app --reload --port 8000
+```
 
-# Start the frontend
+### 6. Start the frontend
+```bash
 npm run dev
+```
 
 ### Citations
 Prompts for LLM calls were generated/being held by ChatGPT
