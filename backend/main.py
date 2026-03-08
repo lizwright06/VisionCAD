@@ -5,7 +5,8 @@ import json
 try:
     from .open_step_file import open_step_file
     from .accept_png import accept_png
-    from .image_analysis import router as analysis_router
+    from .image_analysis import file_to_data_url, llm_analyze, OBSERVED_IMAGE_PATH
+    from .cadGeneration import generateCad
 except ImportError:
     # Allows running as `uvicorn main:app` from `backend/`
     # and `uvicorn backend.main:app` from repo root.
@@ -15,7 +16,6 @@ except ImportError:
     from cadGeneration import generateCad
 
 app = FastAPI()
-# app.include_router(analysis_router)
 
 @app.get("/")
 def root():
@@ -34,7 +34,7 @@ async def upload(image: UploadFile = File(...)):
     result = await accept_png(image)
 
     data_url = file_to_data_url(OBSERVED_IMAGE_PATH)
-
+    print("calling analysis")
     analysis_str = await llm_analyze(data_url)
 
     try:
@@ -62,4 +62,3 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-

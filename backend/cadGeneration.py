@@ -61,8 +61,8 @@ def parse(shape):
 
 
 
-def save_shape(shape_obj, output_dir="outputfiles", filename="model.step"):
-    output_path = Path(__file__).resolve().parent.parent / output_dir
+def save_shape(shape_obj, output_dir="generated_step_files", filename="model.step"):
+    output_path = Path(__file__).resolve().parent / output_dir
     output_path.mkdir(parents=True, exist_ok=True)
     file_path = output_path / filename
     cq.exporters.export(shape_obj, str(file_path))
