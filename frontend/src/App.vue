@@ -1,7 +1,8 @@
 <script setup lang="ts">
-  import { useRouter } from 'vue-router'
+  import { useRouter, useRoute } from 'vue-router'
 
   const router = useRouter();
+  const route = useRoute();
 
   const links = [{
       name: 'Home',
@@ -16,14 +17,23 @@
       url: '/devpost'
     },
     {
+      name: 'Github',
+      url: '/github'
+    },
+    {
       name: 'Team',
       url: '/team'
     }
   ]
 
   function navTo(url: string) {
-    // if(url='/devpost') {
-    //   window.location.href = 'TODO PUT DEVPOST LINK HERE';
+    if(url==='/github') {
+      url = route.path;
+      window.open('https://github.com/lizwright06/VisionCAD', '_blank')?.focus();
+    }
+    // if(url==='/github') {
+    //   url = route.path;
+    //   window.open('TODO DEVPOST LINK', '_blank')?.focus();
     // }
     router.push(url);
   }
@@ -41,7 +51,7 @@
             <v-col 
               v-for="link in links" 
               cols="auto" 
-              class="my-2 mx-2 align-center justify-end cursor-pointer"
+              class="my-2 mx-1 align-center justify-end cursor-pointer"
               @click="navTo(link.url)"
             >
               {{link.name}}
