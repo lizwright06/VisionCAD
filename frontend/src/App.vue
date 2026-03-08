@@ -9,20 +9,12 @@
       url: '/home'
     },
     {
-      name: 'About',
-      url: '/about'
-    },
-    {
       name: 'Devpost',
       url: '/devpost'
     },
     {
       name: 'Github',
       url: '/github'
-    },
-    {
-      name: 'Team',
-      url: '/team'
     }
   ]
 
@@ -31,10 +23,10 @@
       url = route.path;
       window.open('https://github.com/lizwright06/VisionCAD', '_blank')?.focus();
     }
-    // if(url==='/github') {
-    //   url = route.path;
-    //   window.open('TODO DEVPOST LINK', '_blank')?.focus();
-    // }
+    if(url==='/devpost') {
+      url = route.path;
+       window.open('https://devpost.com/software/visioncad', '_blank')?.focus();
+     }
     router.push(url);
   }
 </script>

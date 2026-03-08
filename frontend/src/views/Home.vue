@@ -101,14 +101,14 @@
           <v-btn
             @click="downloadFile"
             class="justify-center"
-            color="secondary-darken-1"
+            color="secondary-darken"
           >
             <p v-if="downloadStore.photoFile && !Array.isArray(downloadStore.photoFile)"> {{ downloadStore.fileName }}</p>
             <div v-else>Download</div>
           </v-btn>
         </v-col>
         <v-col class="d-flex justify-start">
-          <v-btn color="secondary-darken-1" @click="reset">
+          <v-btn color="secondary-darken" @click="reset">
             Upload Another Photo
           </v-btn>
         </v-col>

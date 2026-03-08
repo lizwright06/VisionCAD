@@ -12,18 +12,6 @@ const routes: RouteRecordRaw[] = [
         component: async () => await import("../views/Home.vue"),
         meta: {hideAppBar: true}
       },
-      {
-        path: "/about",
-        name: "About",
-        component: async () => await import("../views/About.vue"),
-        meta: {hideAppBar: true}
-      },
-      {
-        path: "/team",
-        name: "Team",
-        component: async () => await import("../views/Team.vue"),
-        meta: {hideAppBar: true}
-      }
     ],
   },
 ];

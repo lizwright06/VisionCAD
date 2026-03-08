@@ -12,7 +12,6 @@ export default (app: App) => {
         light: {
             dark: false,
             colors: {
-                //TODO: clean up palette & take out comments
                 primary: '#A05DCB',
                 'primary-darken': '#57058B',
 
